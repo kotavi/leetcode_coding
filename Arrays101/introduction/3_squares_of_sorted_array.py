@@ -33,7 +33,11 @@ print(sorted_squares_naive([-12, -10, -8, -6, -5, -4, -3, -2, -1]))
 
 def sorted_squares(lst):
     """
-    Two pointers approach
+    Two pointers approach:
+    - introduce 2 pointers: start and end;
+    - compare squares at the 2 pointers:
+        - the bigger value is written to a new array
+        - the index for that value wil advance to the middle of the current array
 
     Time Complexity: O(N), where N is the length of A.
     Space Complexity: O(N).

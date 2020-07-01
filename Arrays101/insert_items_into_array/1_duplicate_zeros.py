@@ -20,17 +20,26 @@ Note:
 
 
 def duplicate_zeros_naive(arr):
+    """
+    Approach:
+    - loop through the input array;
+    - if the current element is equal to 0:
+        - insert another 0 to the right,
+        - remove the last element from the array,
+        - increase the index by one.
+    - increase the index by one.
+    """
     i = 0
     while i < len(arr):
         if arr[i] == 0:
             arr.insert(i+1, 0)
             arr.pop()
-            i += 2
-        else:
             i += 1
+        i += 1
     return arr
 
 
+print(duplicate_zeros_naive.__doc__)
 print(duplicate_zeros_naive([1, 2, 3, 4, 5]))
 print(duplicate_zeros_naive([1, 2, 3, 4, 5, 0]))
 print(duplicate_zeros_naive([1, 0, 2, 3, 0, 4, 5, 0]))
@@ -38,6 +47,12 @@ print(duplicate_zeros_naive([0, 2, 3, 0, 4, 5, 0]))
 
 
 def duplicate_zeros(arr):
+    """
+    Approach:
+    -
+    :param arr:
+    :return:
+    """
     n = len(arr)
     zeros = arr.count(0)
     curr_index = len(arr) - 1
