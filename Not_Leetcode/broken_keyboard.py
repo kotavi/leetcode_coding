@@ -51,6 +51,8 @@ def broken_keyboard(text):
 
 print(broken_keyboard("This_is_a_[Beiju]_text"))
 print(broken_keyboard("[[]][][]Happy_Birthday_to_Tsinghua_University"))
+print(broken_keyboard("Happy_Birthday_to_Tsinghua_University[[]][][]"))
+print(broken_keyboard("Happy_Birthday_to_Tsinghua_[[]][][]_University"))
 
 assert broken_keyboard("This_is_a_[Beiju]_text") == "BeijuThis_is_a__text"
 assert broken_keyboard("[[]][][]Happy_Birthday_to_Tsinghua_University") == "Happy_Birthday_to_Tsinghua_University"
