@@ -70,7 +70,6 @@ class LL:
             new_node.next = self.head
             self.head = new_node
             self.curr = self.head
-        return self.curr
 
     def add_after_current(self, value):
         """
@@ -83,7 +82,6 @@ class LL:
         if self.curr == self.tail:
             self.tail = new_node
         self.curr = new_node
-        return self.curr
 
 
 def broken_keyboard(text):
