@@ -17,12 +17,13 @@ from LinkedList.singly_linked_list.design_linked_list import LinkedList
 
 def broken_keyboard(text):
     """
+    Approach:
+    this approach is similar to array implementation which results in O(n^2) times complexity
     Complexity:
     O(n) - if there's no special characters '[' and ']'
     or all these characters are only at the beginning or the end
 
-    O(m*n) - if special characters '[' and ']' are met in the text
-
+    O(n^2) - if special characters '[' and ']' are met in the text
     """
     ll = LinkedList()
     n = len(text)
@@ -40,7 +41,6 @@ def broken_keyboard(text):
                 j += 1
                 i += 1
         i += 1
-    # ll.print_linked_list()
     res = ""
     curr = ll.head
     while curr:
