@@ -63,9 +63,7 @@ def validate(n, expected_result):
                     return False
                 else:
                     break
-    if b_stack.items == expected_result:
-        return True
-    return False
+    return b_stack.items == expected_result
 
 
 print(validate(6, [6, 5, 4, 3, 2, 1]))  # True
