@@ -94,8 +94,11 @@ def broken_keyboard(text):
             j = 0
             i += 1
             while i < n and text[i] != ']':
-                if text[i] in ['[', ']']:
+                if text[i] == ']':
                     break
+                elif text[i] == '[':
+                    j = 0
+                    i += 1
                 if j == 0:
                     ll.add_at_head(text[i])
                 else:
@@ -120,5 +123,4 @@ assert broken_keyboard("[Happy]_Birthday_to_Tsinghua_University") == "Happy_Birt
 assert broken_keyboard("[123]_hello") == "123_hello"
 assert broken_keyboard("[123_hell]o]") == "123_hello"
 assert broken_keyboard("Happy_Birthday_[Tsinghua_University]") == "Tsinghua_UniversityHappy_Birthday_"
-assert broken_keyboard("There_are_[several]_test_cases") == "severalThere_are__test_cases"
-
+assert broken_keyboard("There_are_[123[456[789]_numbers") == "789456123There_are__numbers"
