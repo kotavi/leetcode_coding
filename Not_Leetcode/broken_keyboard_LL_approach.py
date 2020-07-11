@@ -91,19 +91,18 @@ def broken_keyboard(text):
         if text[i] not in ['[', ']']:
             ll.add_at_tail(text[i])
         else:
-            j = 0
+            flag = True
             i += 1
             while i < n and text[i] != ']':
-                if text[i] == ']':
-                    break
-                elif text[i] == '[':
-                    j = 0
+                if text[i] == '[':
+                    flag = True
                     i += 1
-                if j == 0:
-                    ll.add_at_head(text[i])
-                else:
-                    ll.add_after_current(text[i])
-                j += 1
+                if text[i] not in ['[', ']']:
+                    if flag:
+                        ll.add_at_head(text[i])
+                    else:
+                        ll.add_after_current(text[i])
+                    flag = False
                 i += 1
         i += 1
     # ll.print_list()
@@ -116,11 +115,17 @@ def broken_keyboard(text):
     return res
 
 
-assert broken_keyboard("This_is_a_[Beiju]_text") == "BeijuThis_is_a__text"
-assert broken_keyboard("This_is_a_text_[Beiju]") == "BeijuThis_is_a_text_"
 assert broken_keyboard("[[]][][]Happy_Birthday_to_Tsinghua_University") == "Happy_Birthday_to_Tsinghua_University"
+assert broken_keyboard("[123]_hello[[][][]]") == "123_hello"
+
+assert broken_keyboard("This_is_a_[Beiju]_text") == "BeijuThis_is_a__text"
 assert broken_keyboard("[Happy]_Birthday_to_Tsinghua_University") == "Happy_Birthday_to_Tsinghua_University"
 assert broken_keyboard("[123]_hello") == "123_hello"
 assert broken_keyboard("[123_hell]o]") == "123_hello"
 assert broken_keyboard("Happy_Birthday_[Tsinghua_University]") == "Tsinghua_UniversityHappy_Birthday_"
 assert broken_keyboard("There_are_[123[456[789]_numbers") == "789456123There_are__numbers"
+assert broken_keyboard("1[2[3[4[5[6[7[8[9[0") == "0987654321"
+
+assert broken_keyboard("1[[2[[3[[4[[5[[6[[7[[8[[9[[0") == "0987654321"
+assert broken_keyboard("1[]2[]3[]4[]5[]6[]7[]8[]9[]0") == "1234567890"
+assert broken_keyboard("[[[1[2[3]]]") == "321"
