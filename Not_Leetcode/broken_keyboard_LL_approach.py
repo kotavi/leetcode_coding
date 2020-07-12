@@ -33,6 +33,12 @@ class LL:
             curr = curr.next
         print()
 
+    def move_curr_front(self):
+        self.curr = self.head
+
+    def move_curr_end(self):
+        self.curr = self.tail
+
     def add_at_tail(self, value):
         """
         Case1: when LL is empty, so the head,
@@ -86,26 +92,30 @@ class LL:
 
 def broken_keyboard(text):
     ll = LL()
-    n, i = len(text), 0
-    while i < n:
-        if text[i] not in ['[', ']']:
-            ll.add_at_tail(text[i])
-        else:
+    prev_ch = ''  # keep track of '[' and ']' changing
+    # to know when enter character at the head,
+    # when flag is False - enter character after the current
+    flag = True
+    for ch in text:
+        if ch not in ['[', ']']:
+            if prev_ch == '':
+                ll.add_at_tail(ch)
+            elif prev_ch == '[' and flag:
+                ll.add_at_head(ch)
+                # after ch was added at the head the following ch will be added after curr
+                flag = False
+            elif prev_ch == '[' and not flag:
+                ll.add_after_current(ch)
+            elif prev_ch == ']':
+                ll.add_at_tail(ch)
+        # move cursor depending on ']' abd '[' characters
+        elif ch == '[':
+            prev_ch = '['
             flag = True
-            i += 1
-            while i < n and text[i] != ']':
-                if text[i] == '[':
-                    flag = True
-                    i += 1
-                if text[i] not in ['[', ']']:
-                    if flag:
-                        ll.add_at_head(text[i])
-                    else:
-                        ll.add_after_current(text[i])
-                    flag = False
-                i += 1
-        i += 1
-    # ll.print_list()
+            ll.move_curr_front()
+        elif ch == ']':
+            prev_ch = ']'
+            ll.move_curr_end()
     res = ""
     curr = ll.head
     while curr:
@@ -120,7 +130,6 @@ assert broken_keyboard("[123]_hello[[][][]]") == "123_hello"
 
 assert broken_keyboard("This_is_a_[Beiju]_text") == "BeijuThis_is_a__text"
 assert broken_keyboard("[Happy]_Birthday_to_Tsinghua_University") == "Happy_Birthday_to_Tsinghua_University"
-assert broken_keyboard("[123]_hello") == "123_hello"
 assert broken_keyboard("[123_hell]o]") == "123_hello"
 assert broken_keyboard("Happy_Birthday_[Tsinghua_University]") == "Tsinghua_UniversityHappy_Birthday_"
 assert broken_keyboard("There_are_[123[456[789]_numbers") == "789456123There_are__numbers"
@@ -129,3 +138,9 @@ assert broken_keyboard("1[2[3[4[5[6[7[8[9[0") == "0987654321"
 assert broken_keyboard("1[[2[[3[[4[[5[[6[[7[[8[[9[[0") == "0987654321"
 assert broken_keyboard("1[]2[]3[]4[]5[]6[]7[]8[]9[]0") == "1234567890"
 assert broken_keyboard("[[[1[2[3]]]") == "321"
+assert broken_keyboard("1]2]3[[[4") == "4123"
+assert broken_keyboard("[[u[]a_Un") == "ua_Un"
+
+assert broken_keyboard("a_[b_[c_[d_[e_[f_[g") == "gf_e_d_c_b_a_"
+assert broken_keyboard("H[a[pp]y]_Bir[t]hd[a]y[_[Tsi[ng]h[[u[]a_Un[]i[]v[e[rsity]") == \
+       "rsityeungTsi_atppaHy_Birhdyha_Univ"
