@@ -26,12 +26,27 @@ class TreeNode:
         return level
 
     def print_tree(self):
-        spaces = ' ' * self.get_level() * 3
+        spaces = ' ' * self.get_level() * 2
         prefix = spaces + "|__" if self.parent else ""
         print(prefix + self.value)
         if self.children:
             for child in self.children:
                 child.print_tree()
+
+
+def print_all_leaves(tree):
+    if not tree.children:
+        return tree.value
+    else:
+        return [print_all_leaves(child) for child in tree.children]
+
+
+def post_order(tree):
+    if not tree:
+        return
+    for child in tree.children:
+        post_order(child)
+    print(tree.value, end=", ")
 
 
 def leaf_count(tree):
@@ -55,11 +70,12 @@ def nodes_number(tree):
         return 1 + sum([nodes_number(c) for c in tree.children])
 
 
-def arity(tree):
+def node_degree(tree):
+    # the number of its children
     if len(tree.children) == 0:
         return 0
     else:
-        return max([len(tree.children)]+[arity(n) for n in tree.children])
+        return max([len(tree.children)]+[node_degree(n) for n in tree.children])
 
 
 """
@@ -81,8 +97,6 @@ t = TreeNode("12")
 tree4.add_child(t)
 tree4.add_child(t)
 
-print(t.is_leaf())
-
 tree1.add_child(tree4)
 tree1.add_child(TreeNode("6"))
 tree2 = TreeNode("3")
@@ -96,10 +110,11 @@ root.add_child(tree2)
 root.add_child(tree3)
 
 root.print_tree()
-print(tree3.get_level())
-print(leaf_count(root))
-print(tree_hight(root))
-print(nodes_number(root))
-print(arity(root))
-print(tree3.is_root())
-print(root.is_root())
+print("Level number of tree4: ", tree4.get_level())
+print("Tree height: ", tree_hight(root))
+print("Nodes number: ", nodes_number(root))
+print("Node degree (root)", node_degree(root))
+print("Leaf count: ", leaf_count(root))
+print("Tree leaves: ", print_all_leaves(root))
+print("Post order: ")
+print(post_order(root))
