@@ -1,15 +1,18 @@
 """
 1. Implement a generic tree class in python: Should support methods like:
 a) Finding the height of the tree
-b) Adding a child node to a given node of the tree
 c) Finding number of nodes in the tree
 d) Deleting ith child node of a given node(you have to think about freeing memory here too!)
-e) Printing nodes of the tree using pre order and post order traversal
 f) Printing longest root to leaf path in the tree
 g) Print the set of nodes on a given level, i
+j) Printing the path between two given nodes (Assume all nodes of the tree are distinct). Note this path will be unique
+
+Implemented:
+b) Adding a child node to a given node of the tree
+e) Printing nodes of the tree using pre order and post order traversal
 h) Searching for a given node in the tree (Assume node pointer is given)
-I) Finding out the parent node of a given node pointer
-J) Printing the path between two given nodes (Assume all nodes of the tree are distinct). Note this path will be unique
+i) Finding out the parent node of a given node pointer
+
 """
 
 
@@ -34,6 +37,16 @@ class LinkedList:
                 curr = curr.next
             curr.next = new_node
         self.size += 1
+
+    def print_linked_list(self):
+        curr = self.head
+        if not curr:
+            print("LinkedList is empty")
+            return
+        while curr:
+            print("{}".format(curr.value), end=" --> ")
+            curr = curr.next
+        print()
 
 
 class TreeNode:
@@ -61,8 +74,6 @@ class Tree:
     def return_root(self):
         return self.root
 
-    # def get_node_parent(self, curr_node):
-
     def get_tree_node(self, curr_node, value):
         if curr_node.data == value:
             return curr_node
@@ -72,6 +83,19 @@ class Tree:
                 node = self.get_tree_node(temp.value, value)
                 if node:
                     return node
+                else:
+                    temp = temp.next
+        return None
+
+    def get_parent_node(self, curr_node, value):
+        if curr_node.data == value:
+            return curr_node.parent
+        else:
+            temp = curr_node.children.head
+            while temp:
+                node = self.get_tree_node(temp.value, value)
+                if node:
+                    return node.parent
                 else:
                     temp = temp.next
         return None
@@ -90,11 +114,11 @@ class Tree:
             temp = temp.next
         print(current_node.data, end="  ")
 
-    def add_child_node(self, where_to_add, child_to_add):
+    def add_child_node(self, where_to_add, value):
         # where_to_add is a parent where child will be added
-        new_node = TreeNode(child_to_add)
-        node2 = self.get_tree_node(self.root, where_to_add)
-        node2.add_child(new_node)
+        new_tree_node = TreeNode(value)
+        parent_node = self.get_tree_node(self.root, where_to_add)
+        parent_node.add_child(new_tree_node)
 
 
 tree = Tree(0)
@@ -108,10 +132,10 @@ tree.add_child_node(3, 7)
 tree.add_child_node(3, 8)
 tree.add_child_node(3, 9)
 
-#
 tree.pre_order(tree.root)
 print()
 tree.post_order(tree.root)
 print()
-
-# print(tree.number_tree_nodes(tree.root))
+p = tree.get_parent_node(tree.root, 9)
+print(p.data)
+p.children.print_linked_list()
