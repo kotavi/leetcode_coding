@@ -120,6 +120,28 @@ class Tree:
         parent_node = self.get_tree_node(self.root, where_to_add)
         parent_node.add_child(new_tree_node)
 
+    def height(self, curr_tree_node):
+        pass
+
+    def nodes_number(self, curr_tree_node):
+        """
+        sum of all curr_tree_node.children.size
+        then result + 1 to count root node
+        """
+        pass
+
+    def nodes_at_level(self, curr_tree_node, level):
+        pass
+
+    def delete_child_node(self, curr_tree_node, value):
+        pass
+
+    def longest_path(self, root_node):
+        pass
+
+    def longest_path_between_nodes(self, tree_node1, tree_node2):
+        pass
+
 
 tree = Tree(0)
 tree.add_child_node(0, 1)

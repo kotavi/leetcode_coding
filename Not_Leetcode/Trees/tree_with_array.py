@@ -56,11 +56,11 @@ def leaf_count(tree):
         return sum([leaf_count(c) for c in tree.children])
 
 
-def tree_hight(tree):
+def tree_height(tree):
     if len(tree.children) == 0:
         return 1
     else:
-        return 1 + max([tree_hight(c) for c in tree.children])
+        return 1 + max([tree_height(c) for c in tree.children])
 
 
 def nodes_number(tree):
