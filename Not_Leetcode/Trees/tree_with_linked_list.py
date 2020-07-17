@@ -1,7 +1,5 @@
 """
 1. Implement a generic tree class in python: Should support methods like:
-a) Finding the height of the tree
-c) Finding number of nodes in the tree
 d) Deleting ith child node of a given node(you have to think about freeing memory here too!)
 f) Printing longest root to leaf path in the tree
 g) Print the set of nodes on a given level, i
@@ -12,6 +10,9 @@ b) Adding a child node to a given node of the tree
 e) Printing nodes of the tree using pre order and post order traversal
 h) Searching for a given node in the tree (Assume node pointer is given)
 i) Finding out the parent node of a given node pointer
+a) Finding the height of the tree
+c) Finding number of nodes in the tree
+c) Finding number of leaf nodes in the tree
 
 """
 
@@ -87,18 +88,31 @@ class Tree:
                     temp = temp.next
         return None
 
+    def get_parent(self, curr_node, value):
+        node = self.get_tree_node(curr_node, value)
+        return node.parent if node else None
+
     def get_parent_node(self, curr_node, value):
-        if curr_node.data == value:
-            return curr_node.parent
+        """
+        Finds parent of the tree node not using self.parent pointer
+        """
+        if curr_node.data is self.root.data and curr_node.data == value:
+            return None
         else:
             temp = curr_node.children.head
             while temp:
-                node = self.get_tree_node(temp.value, value)
-                if node:
-                    return node.parent
+                if temp.value.data == value:
+                    return curr_node
                 else:
-                    temp = temp.next
-        return None
+                    if temp.value.children.size != 0:
+                        node = self.get_parent_node(temp.value, value)
+                        if node:
+                            return node
+                        else:
+                            temp = temp.next
+                    else:
+                        temp = temp.next
+            return None
 
     def pre_order(self, current_node):
         print(current_node.data, end="  ")
@@ -121,16 +135,57 @@ class Tree:
         parent_node.add_child(new_tree_node)
 
     def height(self, curr_tree_node):
-        pass
+        # check if a curr_node is a leaf
+        if curr_tree_node.children.size == 0:
+            return 0
+        else:
+            height = 0  # final result
+            temp = curr_tree_node.children.head
+            while temp:
+                h = self.height(temp.value)
+                height = max(h, height)
+                temp = temp.next
+            height += 1
+            return height
 
-    def nodes_number(self, curr_tree_node):
+    def leaves_count(self, curr_tree_node):
+        # check if a curr_node is a leaf
+        if curr_tree_node.children.size == 0:
+            return 1
+        else:
+            result = 0  # final result
+            temp = curr_tree_node.children.head
+            while temp:
+                res = self.leaves_count(temp.value)
+                result += res  # add a leaf to final result
+                temp = temp.next
+            return result
+
+    def nodes_count(self, current_tree_node):
         """
-        sum of all curr_tree_node.children.size
-        then result + 1 to count root node
+        I reused code from leaves_count
+        The only difference is that I return 1 + result
+        For example: TreeNode(1) has 2 children: TreeNode(4) and TreeNode(5)
+        the result for this subtree wil be result=2 (2 leaves)
+        and with do + 1 to count a parent of these leaves
         """
-        pass
+        if current_tree_node.children.size == 0:
+            return 1
+        else:
+            result = 0
+            temp = current_tree_node.children.head
+            while temp:
+                res = self.nodes_count(temp.value)
+                result += res
+                temp = temp.next
+            return 1 + result
 
     def nodes_at_level(self, curr_tree_node, level):
+        """
+        stack version
+        or
+        recursion
+        """
         pass
 
     def delete_child_node(self, curr_tree_node, value):
@@ -153,11 +208,37 @@ tree.add_child_node(2, 6)
 tree.add_child_node(3, 7)
 tree.add_child_node(3, 8)
 tree.add_child_node(3, 9)
+tree.add_child_node(9, 10)
+tree.add_child_node(9, 11)
 
 tree.pre_order(tree.root)
 print()
 tree.post_order(tree.root)
 print()
-p = tree.get_parent_node(tree.root, 9)
-print(p.data)
-p.children.print_linked_list()
+
+n = tree.get_parent_node(tree.root, 9)
+print("Parent node: ", n.data)
+
+print("Tree height:", tree.height(tree.root))
+print("Number of leaves:", tree.leaves_count(tree.root))
+print("Number of tree nodes:", tree.nodes_count(tree.root))
+
+print("-*---" * 10)
+tree2 = Tree(0)
+tree2.add_child_node(0, 1)
+tree2.add_child_node(1, 2)
+tree2.add_child_node(2, 3)
+tree2.add_child_node(3, 4)
+tree2.add_child_node(4, 5)
+
+tree2.pre_order(tree2.root)
+print()
+tree2.post_order(tree2.root)
+print()
+
+n = tree2.get_parent_node(tree2.root, 4)
+print("Parent node: ", n.data)
+
+print("Tree height:", tree2.height(tree2.root))
+print("Number of leaves:", tree2.leaves_count(tree2.root))
+print("Number of tree nodes:", tree2.nodes_count(tree2.root))
