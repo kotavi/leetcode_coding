@@ -111,7 +111,7 @@ root.add_child(tree3)
 
 root.print_tree()
 print("Level number of tree4: ", tree4.get_level())
-print("Tree height: ", tree_hight(root))
+print("Tree height: ", tree_height(root))
 print("Nodes number: ", nodes_number(root))
 print("Node degree (root)", node_degree(root))
 print("Leaf count: ", leaf_count(root))

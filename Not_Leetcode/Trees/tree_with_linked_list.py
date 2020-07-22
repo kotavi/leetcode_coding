@@ -167,7 +167,7 @@ class Tree:
         The only difference is that I return 1 + result
         For example: TreeNode(1) has 2 children: TreeNode(4) and TreeNode(5)
         the result for this subtree wil be result=2 (2 leaves)
-        and with do + 1 to count a parent of these leaves
+        and I do + 1 to count a parent of these leaves
         """
         if current_tree_node.children.size == 0:
             return 1
@@ -186,12 +186,22 @@ class Tree:
         or
         recursion
         """
-        pass
+
+        # not finished
+        queue = []
+        temp = curr_tree_node.children.head
+        while temp:
+            res = self.nodes_at_level(temp.value, level)
+            queue.append(temp.value)
+            queue += res
+            temp = temp.next
+        return queue
 
     def delete_child_node(self, curr_tree_node, value):
         pass
 
-    def longest_path(self, root_node):
+    def print_longest_path(self, curr_tree_node):
+        # Printing longest root to leaf path in the tree
         pass
 
     def longest_path_between_nodes(self, tree_node1, tree_node2):
@@ -242,3 +252,8 @@ print("Parent node: ", n.data)
 print("Tree height:", tree2.height(tree2.root))
 print("Number of leaves:", tree2.leaves_count(tree2.root))
 print("Number of tree nodes:", tree2.nodes_count(tree2.root))
+# print("Longest root to leaf path:", tree2.print_longest_path(tree2.root))
+val = tree2.nodes_at_level(tree.root, 3)
+for v in val:
+    print(v.data)
+print("nodes_at_level:", tree2.nodes_at_level(tree.root, 3))
